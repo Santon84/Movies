@@ -159,13 +159,13 @@ async function getMovies(url, fields) {
 
 
 const renderMovies = (movies, fields) => {
-    console.log(fields.nameRu ?? fields.nameOrig);
+    
     moviesConteiner.innerHTML = "";
     movies[fields.array].forEach(movie => {
     moviesConteiner.innerHTML += `
     <div class="movie" data-id=${movie[fields.id]}>
-        <img class="movie-preview-poster" src="${movie[fields.posterUrl]}" alt="${movie[fields.nameRu]}">
-        <p class="movie-title">${movie[fields.nameRu ?? fields.nameOrig]}</p>
+        <img class="movie-preview-poster" src="${movie[fields.posterUrl]}" alt="${movie[fields.nameRu ?? movie[fields.nameOrig]}">
+        <p class="movie-title">${movie[fields.nameRu] ?? movie[fields.nameOrig]}</p>
         <p class="movie-genre">${movie[fields.year]}, ${movie[fields.genre].map(genre => genre.genre).join(', ')}</p> 
         <div class="movie-rating">${movie[fields.rating]}</div>
     </div>
