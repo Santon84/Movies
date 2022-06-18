@@ -162,6 +162,7 @@ const renderMovies = (movies, fields) => {
     
     moviesConteiner.innerHTML = "";
     movies[fields.array].forEach(movie => {
+    console.log(movie[fields.nameRu] ?? movie[fields.nameOrig]);
     moviesConteiner.innerHTML += `
     <div class="movie" data-id=${movie[fields.id]}>
         <img class="movie-preview-poster" src="${movie[fields.posterUrl]}" alt="${movie[fields.nameRu] ?? movie[fields.nameOrig]}">
