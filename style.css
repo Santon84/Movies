@@ -42,7 +42,8 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 20px;
+    row-gap: 20px;
+    column-gap: 20px;
 }
 .side-filter {
     width: 200px;
@@ -101,6 +102,11 @@ width: 240px;
         
         
     }
+
+    .movie {
+        position: relative;
+        width: 220px;
+        }
 }
     
 
