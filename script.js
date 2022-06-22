@@ -1289,6 +1289,15 @@ filterTopButton.forEach( button => {
 
 button.addEventListener('click', function(e) {
     e.preventDefault();
+    const activeClass = 'filter-link__active';
+    filterTopButton.forEach( btn => {
+        if(btn.classList.contains(activeClass)) {
+            btn.classList.remove(activeClass)
+        }
+    })
+    button.classList.add(activeClass);
+
+
     currentUrl = TOP_MOVIES[button.dataset.url];
     currentFields = topMovieFilds;
     getMovies(`${currentUrl}&page=1`, currentFields);

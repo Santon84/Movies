@@ -131,7 +131,11 @@ margin-bottom: 20px;
     font-size: 13px ;
     text-decoration: none;
 }
-
+.filter-link__active {
+    background-color: rgb(64, 63, 63); 
+    
+    color: rgb(82, 209, 3);
+}
 
 .movie-title {
     width: 100%;
