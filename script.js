@@ -1,4 +1,4 @@
-const COUNTRIES  = [
+const ALL_COUNTRIES  = [
     {
       "id": 1,
       "country": "США"
@@ -210,10 +210,6 @@ const COUNTRIES  = [
     {
       "id": 53,
       "country": "Доминикана"
-    },
-    {
-      "id": 54,
-      "country": ""
     },
     {
       "id": 55,
@@ -1085,6 +1081,8 @@ const paginationConteiner = document.querySelector('.pagination');
 let currentUrl = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS';
 const genreSelector = document.getElementById('genre-select');
 const yearSelector = document.getElementById('year-select');
+const countrySelector = document.getElementById('country-select');
+
 class fieldsConstructor {
     constructor(options) {
         this.id = options.id
@@ -1150,20 +1148,30 @@ async function getMovies(url, fields) {
         },
     })
     const data = await response.json();
+    console.log(data);
     renderMovies(data, fields);
+    if (data[fields.array].length > 0) {
     renderPagination(data[fields.pageCount]);
     
+    } else {
+        renderPagination(0);
+    }
     
-   
     
 }
 
 
 const renderMovies = (movies, fields) => {
     
+    
+
+    if (movies[fields.array].length === 0) {
+        moviesConteiner.innerHTML = "Поиск не дал результатов";
+        return;
+    }
+
     moviesConteiner.innerHTML = "";
     movies[fields.array].forEach(movie => {
-    
     moviesConteiner.innerHTML += `
     <div class="movie" data-id=${movie[fields.id]}>
         <img class="movie-preview-poster" src="${movie[fields.posterUrl]}" alt="${movie[fields.nameRu] ?? movie[fields.nameOrig]}">
@@ -1179,8 +1187,9 @@ const renderMovies = (movies, fields) => {
 
 
 const renderPagination = (pagesNum = 0) => {
-
+    console.log('pages:'+ pagesNum);
     paginationConteiner.innerHTML = "";
+    if (pagesNum === 0) {return}
     for (i=1; i<=pagesNum; i++){
         paginationConteiner.innerHTML += `<div class="page">${i}</div>`
     }
@@ -1227,14 +1236,16 @@ const buttonFilter = document.querySelector('.button-select');
 })
 
 
-const searchMovie = () => {
+const searchMovie = (value) => {
     
-    if (searchInput.value) {
-    const searchText = searchInput.value;
+    
+        console.log(value);
+    const searchText = value;
     currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchText}`
     currentFields = topMovieFilds;
     getMovies(`${currentUrl}&page=1`, currentFields);
-    }
+    
+    
 
 }
 
@@ -1248,6 +1259,15 @@ const fillGenreSelector = () => {
     })
     
 } 
+const fillCountrySelector = () => {
+    countrySelector.innerHTML = `<option>Все страны</option>`;
+    ALL_COUNTRIES.forEach(element => {
+        countrySelector.innerHTML += `<option value=${element.id}>${element.country}</option>`
+        
+    })
+    
+} 
+
 const fillYearSelector = () => {
     yearSelector.innerHTML = `<option>Все года</option>`;
     yearSelector.innerHTML += `<option>2010 - 2020</option>`;
@@ -1263,7 +1283,7 @@ const fillYearSelector = () => {
 }
 fillGenreSelector();
 fillYearSelector();
-
+fillCountrySelector();
 
 filterTopButton.forEach( button => {
 
@@ -1281,8 +1301,12 @@ button.addEventListener('click', function(e) {
 
 
 searchInput.addEventListener('keypress', function(e) {
-
+    
     if (e.key === 'Enter') {
-        searchMovie();
+        e.preventDefault();
+        if(searchInput.value){
+        searchMovie(searchInput.value);
+        }
       }
+      
 })
