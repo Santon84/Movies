@@ -1,79 +1,6 @@
+import { ALL_GENRES } from "./values";
 const API_KEY = '21ee2a95-6271-421f-9032-0af958c10d32';
-const ALL_GENRES = [{
-    genre: "комедия", id: '13'
-},
-{
-    genre: "боевик", id: '11'
-},
-{
-    genre: "приключения", id: '7'
-},
-{
-    genre: "триллер", id: '1'
-},
-{
-    genre: "детектив", id: '5'
-},
-{
-    genre: "драма", id: '2'
-},
-{
-    genre: "мелодрама", id: '4'
-},
-{
-    genre: "фантастика", id: '6'
-},
-{
-    genre: "вестерн", id: '10'
-},
-{
-    genre: "криминал", id: '3'
-},
-{
-    genre: "ужасы", id: '17'
-},
-{
-    genre: "документальные", id: '22'
-},
-{
-    genre: "семейные", id: '19'
-},
-{
-    genre: "фэнтези", id: '12'
-},
-{
-    genre: "военные", id: '14'
-},
-{
-    genre: "биография", id: '8'
-},
-{
-    genre: "фильм-нуар", id: '9'
-},
-{
-    genre: "исторический", id: '15'
-},
-{
-    genre: "музыкальный", id: '16'
-},
-{
-    genre: "мультфильм", id: '18'
-},
-{
-    genre: "мюзикл", id: '20'
-},
-{
-    genre: "спорт", id: '21'
-},
-{
-    genre: "короткометражка", id: '23'
-},
-{
-    genre: "анимэ", id: '24'
-},
 
-    
-]
 
 
 const baseUrl = 'https://kinopoiskapiunofficial.tech/api/v2.2/';
@@ -83,7 +10,7 @@ const paginationConteiner = document.querySelector('.pagination');
 
 let currentUrl = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS';
 const genreSelector = document.getElementById('genre-select');
-
+const yearSelector = document.getElementById('year-select');
 class fieldsConstructor {
     constructor(options) {
         this.id = options.id
@@ -199,7 +126,9 @@ const renderPagination = (pagesNum = 0) => {
 const buttonFilter = document.querySelector('.button-select');
     buttonFilter.addEventListener('click', function() {
     let selectedGenre = genreSelector.options[genreSelector.selectedIndex].value;
-    currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.2/films?genres=${selectedGenre}&order=RATING&type=FILM&ratingFrom=6&ratingTo=10&yearFrom=2010&yearTo=2010`    
+    let selectedYear = yearSelector.options[yearSelector.selectedIndex].value;
+    
+    currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.2/films?genres=${selectedGenre}&order=RATING&type=FILM&ratingFrom=6&ratingTo=10&yearFrom=${selectedYear}&yearTo=${selectedYear}`    
     currentFields = filterMovieFilds;
     getMovies(`${currentUrl}&page=1`, currentFields);
 })
@@ -213,4 +142,16 @@ const fillGenreSelector = () => {
     })
     
 } 
+const fillYearSelector = () => {
+    yearSelector.innerHTML = '';
+    const yearNow = new Date().getFullYear();
+    const yearStart = 1950;
+
+    for (i=yearNow; i>=yearStart;i--){
+        yearSelector.innerHTML += `<option>${i}</option>`
+
+    }
+
+}
 fillGenreSelector();
+fillYearSelector()
