@@ -1210,10 +1210,11 @@ const buttonFilter = document.querySelector('.button-select');
     buttonFilter.addEventListener('click', function() {
     let selectedGenre = genreSelector.options[genreSelector.selectedIndex].value;
     let selectedYear = yearSelector.options[yearSelector.selectedIndex].value;
-
+    let selectedCountry = countrySelector.options[countrySelector.selectedIndex].value;
+    
     let yearStart = 1950;
     let yearEnd = new Date().getFullYear();
-    
+    let countryLine = '';
 
 
     if (selectedYear.length>8) {
@@ -1221,25 +1222,31 @@ const buttonFilter = document.querySelector('.button-select');
         yearStart = years[0];
         yearEnd = years[1];
         
-
     }
     if (selectedYear.length === 4 ) {
 
         yearStart = selectedYear;
         yearEnd = selectedYear;
     }
+    
+    if (Number(selectedCountry) > 0) {
+      countryLine = `countries=${selectedCountry}&`
+      console.log(countryLine);
+    }
+    
+    // ?countries=1
 
-    currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.2/films?genres=${selectedGenre}&order=RATING&type=FILM&ratingFrom=6&ratingTo=10&yearFrom=${yearStart}&yearTo=${yearEnd}`    
+    currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.2/films?${countryLine}genres=${selectedGenre}&order=RATING&type=FILM&ratingFrom=6&ratingTo=10&yearFrom=${yearStart}&yearTo=${yearEnd}`    
     console.log(currentUrl);
     currentFields = filterMovieFilds;
     getMovies(`${currentUrl}&page=1`, currentFields);
 })
 
-
+//top search
 const searchMovie = (value) => {
     
     
-        console.log(value);
+    
     const searchText = value;
     currentUrl = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchText}`
     currentFields = topMovieFilds;
