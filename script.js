@@ -1125,6 +1125,25 @@ const filterMovieFilds = new fieldsConstructor({
 
 let currentFields = topMovieFilds;
 
+
+const addEventHover = () => {
+
+  const hoverElements = document.querySelectorAll('.movie');
+  
+  
+    hoverElements.forEach(element => {
+      element.addEventListener('mouseenter', function(e){
+        
+        getMoveInfo(element.dataset.id);
+        
+  
+      })
+      
+  
+    
+    })
+  }
+
 const prerenderPage = () => {
     moviesConteiner.innerHTML = "";
     for (i=0; i<12; i++) {
@@ -1176,11 +1195,12 @@ const renderMovies = (movies, fields) => {
     <div class="movie" data-id=${movie[fields.id]}>
         <img class="movie-preview-poster" src="${movie[fields.posterUrl]}" alt="${movie[fields.nameRu] ?? movie[fields.nameOrig]}">
         <p class="movie-title">${movie[fields.nameRu] ?? movie[fields.nameOrig]}</p>
-        <p class="movie-genre">${movie[fields.year]}, ${movie[fields.genre].map(genre => genre.genre).join(', ')}</p> 
-        <div class="movie-rating">${movie[fields.rating]}</div>
+        <p class="movie-genre">${movie[fields.year] || ''}, ${movie[fields.genre].map(genre => genre.genre).join(', ')}</p> 
+        <div class="movie-rating">${movie[fields.rating] || ''}</div>
     </div>
     `
     })
+    addEventHover();
    
 }
 
@@ -1326,3 +1346,26 @@ searchInput.addEventListener('keypress', function(e) {
       }
       
 })
+
+
+
+async function getMoveInfo(id) {
+  const url = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/'+id;
+  
+  const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+          'X-API-KEY': '21ee2a95-6271-421f-9032-0af958c10d32',
+          'Content-Type': 'application/json',
+      },
+  })
+  const data = await response.json();
+  console.log(data.description);
+}
+
+
+
+
+
+ 
+  
