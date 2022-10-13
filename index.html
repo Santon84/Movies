@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project</title>
+    <script type="module" defer src="modal.js"></script>
     <script defer src="consts.js"></script>
-    <script defer src="script.js"></script>
+    <script type="module" defer src="script.js"></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -46,21 +47,33 @@
                     <select id="country-select">
                         <option>Россия</option>
                     </select>
-
-
-
                     <!-- </fieldset> -->
                     <button class="button button-select">Выбрать</button>
                 </div>
             </div>
             <div class="main-conteiner">
                 <div class="movies-conteiner">
-
-
                 </div>
                 <div class="pagination">
-
                 </div>
+            </div>
+        </div>
+
+        <div class="modal">
+            <div class="modal-window">
+                <button id="modal-movie-close-btn" class="modal-close-button">&times;</button>
+                <div class="modal-movie-conteiner">
+                    <div class="modal_image"></div>
+                    <div class="modal_movie-info">
+                        <div class="modal_title"></div>
+                    
+                        <div class="modal_movie-info-year"></div>
+                        <div class="modal_movie-info-genre"></div>
+                        <div class="modal_descr"></div>
+                    </div>
+                    
+                </div>
+                
             </div>
         </div>
     </div>

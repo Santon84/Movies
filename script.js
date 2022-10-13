@@ -1,3 +1,6 @@
+import fillModal from "./modal.js";
+
+
 const filterTopButton = document.querySelectorAll('.filter-link.top');
 
 
@@ -72,9 +75,25 @@ const addEventHover = () => {
   })
 }
 
+const addEventMovieClick = () => {
+
+  const clickElements = document.querySelectorAll('.movie');
+
+
+  clickElements.forEach(element => {
+    element.addEventListener('click', function (e) {
+
+      getMoveInfo(element.dataset.id);
+
+
+    })
+  })
+}
+
+
 const prerenderPage = () => {
   moviesConteiner.innerHTML = "";
-  for (i = 0; i < 12; i++) {
+  for (let i = 0; i < 12; i++) {
     moviesConteiner.innerHTML += `<div class="movie">
             <img class="movie-preview-poster skeleton" alt="">
             <div class="skeleton skeleton-text"></div>
@@ -126,7 +145,8 @@ const renderMovies = (movies, fields) => {
     </div>
     `
   })
-  addEventHover();
+  // addEventHover();
+  addEventMovieClick();
 
 }
 
@@ -138,7 +158,7 @@ const renderPagination = (pagesNum = 0) => {
   if (pagesNum === 0) {
     return
   }
-  for (i = 1; i <= pagesNum; i++) {
+  for (let i = 1; i <= pagesNum; i++) {
     paginationConteiner.innerHTML += `<div class="page">${i}</div>`
   }
 
@@ -230,7 +250,7 @@ const fillYearSelector = () => {
   const yearNow = new Date().getFullYear();
   const yearStart = 1950;
 
-  for (i = yearNow; i >= yearStart; i--) {
+  for (let i = yearNow; i >= yearStart; i--) {
     yearSelector.innerHTML += `<option>${i}</option>`
 
   }
@@ -288,5 +308,33 @@ async function getMoveInfo(id) {
     },
   })
   const data = await response.json();
-  console.log(data.description);
+  const renderData = {};
+  renderData.descr = data.description;
+  renderData.title = data.nameRu;
+  renderData.src = data.posterUrlPreview;
+
+  fillModal('.modal_image','.modal_title','.modal_descr','',renderData)
+  console.log(data);
 }
+
+
+document.getElementById('modal-movie-close-btn').addEventListener('click', (e) => {
+
+  const modal = e.target.parentElement.parentElement;
+
+  modal.classList.remove('show');
+  modal.classList.add('hide');
+  console.log(e.target.parentElement);
+  document.getElementsByTagName("body")[0].style.overflowY = "auto";
+})
+
+document.querySelector('.modal').addEventListener('click', (e) => {
+
+  if (e.target.classList.contains('modal')) {
+    e.target.classList.remove('show');
+    e.target.classList.add('hide');
+    document.getElementsByTagName("body")[0].style.overflowY = "auto";
+  }
+  
+
+})
