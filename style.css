@@ -80,6 +80,7 @@ select {
     object-fit: cover;
     width: 100%;
     aspect-ratio: 3 / 4.4;
+    cursor: pointer;
 }
 
 
